@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  sns-lambda-template
+
+  Example CloudFormation template to subscribe a lambda to an SNS topic.
+Resources:
+  PatientTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: patient-topic
+      TopicName: patient-topic
+      Subscription:
+        - Protocol: lambda
+          Endpoint: !GetAtt PatientCheckoutFunction.Arn
+
+  PatientTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      Topics:
+        - !Ref PatientTopic
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 'sns:Publish'
+            Resource: !Ref PatientTopic
+            Principal:
+              AWS: '*'
+            Condition:
+              ArnLike:
+                AWS:SourceArn: !Sub 'arn:aws:*:*:${AWS::AccountId}:*'
+
+  PatientCheckoutFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: python3.7
+      Handler: index.handler
+      Code:
+        ZipFile: |
+          import json
+          def handler(event, context):
+            patients = [{'name': json.loads(record['Sns']['Message'])['name'], 'status': 'checkout'} for record in event['Records']]
+            print(patients)
+      Role: !GetAtt PatientCheckoutFunctionExecutionRole.Arn
+
+  PatientCheckoutFunctionInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref PatientCheckoutFunction
+      Principal: sns.amazonaws.com
+
+  PatientCheckoutFunctionExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource: arn:aws:logs:*:*:*
+Outputs:
+  PatientTopicArn:
+    Description: The ID of the patient topic.
+    Value: !Ref PatientTopic
+    Export:
+      Name: !Sub "${AWS::StackName}-PatientTopic"

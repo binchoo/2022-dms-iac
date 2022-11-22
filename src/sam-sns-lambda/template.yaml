@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-sns-lambda-template
+
+  Example AWS SAM template to subscribe a lambda to an SNS topic.
+Resources:
+  SamPatientTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: sam-patient-topic
+      TopicName: sam-patient-topic
+
+  SamPatientCheckoutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.7 # 자신의 환경에 설치된 Python 버전에 맞추어 정의합니다. (3.6, 3.7, 3.8 중에서)
+      CodeUri: .
+      Handler: patient_checkout.handler # patient_checkout 모듈의 handler 함수를 지칭합니다.
+      Events:
+        NewPatient:
+          Type: SNS
+          Properties:
+            Topic: !Ref SamPatientTopic
