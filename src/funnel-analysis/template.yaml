@@ -1,0 +1,117 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  funnel-analysis-pipeline
+
+  AWS SAM template to build a funnel-analysis-pipeline.
+Resources:
+  FunnelAnalysisTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: FunnelAnalysis
+      AttributeDefinitions: # KeySchema에서 참조할 속성들은 이곳에 꼭 나열하셔야 합니다.
+        - AttributeName: uid
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: S
+        - AttributeName: funnel
+          AttributeType: S
+        - AttributeName: mapping#url
+          AttributeType: S
+      KeySchema:
+        - AttributeName: uid
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      GlobalSecondaryIndexes:
+        - IndexName: FunnelQueryingIndex
+          KeySchema:
+            - AttributeName: funnel
+              KeyType: HASH
+          Projection:
+            ProjectionType: KEYS_ONLY
+        - IndexName: FunnelMappingIndex
+          KeySchema:
+            - AttributeName: mapping#url
+              KeyType: HASH
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes:
+              - mapping#label
+
+  FunnelLoggingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: funnel_logging.handler
+      Runtime: python3.7 # TODO: 여러분 파이썬 환경으로 바꾸세요 (python3.7, python3.8, python3.9)
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref FunnelAnalysisTable
+      Events:
+        GetHomeEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FunnelApi
+            Method: get
+            Path: /home
+
+  # HTTP API와 람다 사이의 프록시 통합을 위한 단축 신택스가 없으므로
+  # Events 속성을 쓰지 않고
+  # 직접 Route와 Integration 자원을 만들어서 연결하겠습니다.
+  FunnelQueryingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: funnel_querying.handler
+      Runtime: python3.7 # TODO: 여러분 파이썬 환경으로 바꾸세요 (python3.7, python3.8, python3.9)
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref FunnelAnalysisTable
+
+  FunnelApi:
+    Type: AWS::Serverless::HttpApi
+
+  FunnelQueryRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref FunnelApi
+      RouteKey: "GET /funnel/{proxy+}"
+      Target: !Join ["/", ["integrations", !Ref FunnelQueryIntegration]]
+
+  FunnelQueryIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref FunnelApi
+      IntegrationType: AWS_PROXY
+      IntegrationMethod: POST
+      IntegrationUri: !Join
+        - ''
+        - - 'arn:'
+          - !Ref 'AWS::Partition'
+          - ':apigateway:'
+          - !Ref 'AWS::Region'
+          - ':lambda:path/2015-03-31/functions/'
+          - !GetAtt FunnelQueryingFunction.Arn
+          - /invocations
+      PayloadFormatVersion: 1.0
+      RequestParameters:
+        "overwrite:path": "$request.path.proxy"
+
+  FunnelQueryingFunctionInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref FunnelQueryingFunction
+      Principal: apigateway.amazonaws.com
+
+Outputs:
+  HomeEndpoint:
+    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/home"]]
+  InstagramCountEndpoint:
+    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/funnel/", "instagram"]]
+  FacebookCountEndpoint:
+    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/funnel/", "facebook" ]]
+  TwitterCountEndpoint:
+    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/funnel/", "twitter" ]]
