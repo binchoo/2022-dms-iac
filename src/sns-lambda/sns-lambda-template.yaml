@@ -72,9 +72,3 @@ Resources:
                 Action:
                   - logs:*
                 Resource: arn:aws:logs:*:*:*
-Outputs:
-  PatientTopicArn:
-    Description: The ID of the patient topic.
-    Value: !Ref PatientTopic
-    Export:
-      Name: !Sub "${AWS::StackName}-PatientTopic"
