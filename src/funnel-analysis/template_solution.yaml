@@ -44,18 +44,18 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
-      Handler: ??? #TODO: 수정
+      Handler: funnel_logging.handler
       Runtime: python3.7 # TODO: 여러분 파이썬 환경으로 바꾸세요 (python3.7, python3.8, python3.9)
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: ??? #TODO: 수정
+            TableName: !Ref FunnelAnalysisTable
       Events:
         GetHomeEvent:
           Type: HttpApi
           Properties:
-            ApiId: ??? #TODO: 수정
-            Method: ??? #TODO: 수정
-            Path: ??? #TODO: 수정
+            ApiId: !Ref FunnelApi
+            Method: get
+            Path: /home
 
   # HTTP API와 람다 사이의 프록시 통합을 위한 단축 신택스가 없으므로
   # Events 속성을 쓰지 않고
