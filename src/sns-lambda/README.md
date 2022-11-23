@@ -1,4 +1,4 @@
-# S3 버킷 만들기
+# SNS 연동 람다 만들기
 
 AWS CLI로 AWS CloudFormation 서비스를 사용해 봅시다.
 
