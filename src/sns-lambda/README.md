@@ -194,3 +194,28 @@ Resources:
    2022-11-23T13:05:57.946+09:00	END RequestId: 0b03cf54-44bf-4c62-af10-cdc45ce4c3c0
    ```
 
+## Q&A
+
+> aws cloudformation 혹은 aws sns 처럼 AWS CLI의 사용법은 어떻게 알 수 있나요?
+
+당연히 공식 문서를 참고하시면 됩니다. CLI 공식 문서를 링크로 첨부드리겠습니다. 
+
+각 서비스 별로 사용가능한 API를 매우 자세하게 알 수 있습니다.
+
+- AWS CLI 문서: https://docs.aws.amazon.com/cli/latest/index.html
+- AWS CloudFormation CLI 문서: https://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html
+- AWS SNS CLI 문서: https://docs.aws.amazon.com/cli/latest/reference/sns/index.html
+
+> 각 AWS의 자원에 필요한 보안 설정을 어떻게 알 수 있나요?
+
+보안은 AWS에서 매우 중요하게 다뤄집니다. 보안 설정을 하지 않으면 해당 자원을 누릴 수 없는 경우가 왕왕 있습니다.
+
+각 자원의 공식 문서에서 Security, Permission, Access Control 등의 단어가 있는 섹션을 참조하십시오. 자원을 이용하기 위해 어떤 보안 정책이나 보안 자원이 추가로 붙어야 하는지 알 수 있습니다.
+
+- AWS Lambda Permissions> Lambda Execution Role: https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
+
+- AWS Lambda Permissions> Resource-based policies: https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html
+
+- AWS SNS Topic Access Control: https://docs.aws.amazon.com/sns/latest/dg/sns-authentication-and-access-control.html#access-control
+
+  
