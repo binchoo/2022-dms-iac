@@ -1,7 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  InputBucketName:
+    Type: String
+    Default: demo-bucket
+    Description: Input the name of a bucket you are creating.
+    AllowedPattern: "[a-z0-9\\-]+"
+    ConstraintDescription: NO UPPERCASE FOR A BUCKET NAME.
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${AWS::Region}-${AWS::AccountId}-${InputBucketName}"
 Outputs:
   BucketName:
     Value: !Ref S3Bucket
