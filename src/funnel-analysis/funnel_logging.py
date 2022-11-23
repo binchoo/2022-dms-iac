@@ -3,20 +3,14 @@ import uuid
 from datetime import datetime
 import json
 
-def get_funnel_mapping(table):
-    '''
-    '유입경로 주소 -> 유입경로 라벨' 매핑을 얻습니다.
-    '''
-    return {
-        'www.instagram.com': 'INSTAGRAM',
-        'twitter.com': 'TWITTER',
-        'www.facebook.com': 'FACEBOOK'
-    }
-
 # 콜드 스타트 시 초기화 할 자원들
 dynamo = boto3.resource('dynamodb')
 table = dynamo.Table('FunnelAnalysis')
-mapping = get_funnel_mapping(table)
+mapping = {
+    'www.instagram.com': 'INSTAGRAM',
+    'twitter.com': 'TWITTER',
+    'www.facebook.com': 'FACEBOOK'
+}
 
 def handler(event, context):
     '''
