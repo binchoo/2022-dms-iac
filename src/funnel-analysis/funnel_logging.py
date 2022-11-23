@@ -12,14 +12,6 @@ def get_funnel_mapping(table):
         'twitter.com': 'TWITTER',
         'www.facebook.com': 'FACEBOOK'
     }
-    
-def build_funnel_mapping(response):
-    '''
-    DynamoDB 스캔 응답을 '유입경로 주소 -> 유입경로 라벨' 매핑으로 변환합니다.
-    '''
-    mapping = {item['mapping#url']: item['mapping#label'] for item in response['Items']}
-    print('유입경로 주소 -> 유입경로 라벨 매핑: {}', mapping)
-    return mapping
 
 # 콜드 스타트 시 초기화 할 자원들
 dynamo = boto3.resource('dynamodb')
