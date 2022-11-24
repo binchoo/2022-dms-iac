@@ -1,5 +1,7 @@
 # S3 버킷 만들기
 
+> 목표: AWS CloudFormation 콘솔을 사용하여 CFN 스택을 생성할 수 있다.
+
 AWS CloudFormation을 간단하게 실습해 봅시다. 
 
 CFN 템플릿 `s3-bucket-template.yaml`은 S3 버킷 자원 한 개를 명세합니다. 

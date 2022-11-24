@@ -1,5 +1,7 @@
 # SNS 연동 람다 만들기 w/ SAM
 
+> 목표: AWS SAM CLI를 사용하여 CFN 스택을 생성하고 람다 소스코드 산출물을 클라우드 상에 배포할 수 있다.
+
 AWS SAM으로 CloudFormation 스택을 만드는 과정을 간단하게 실습해 봅시다. 
 
 SAM 템플릿 `template.yaml`은 하나의 SNS 토픽과, 이것을 이벤트 소스로 갖는 람다 하나를 명세합니다.

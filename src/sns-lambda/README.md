@@ -1,5 +1,7 @@
 # SNS 연동 람다 만들기
 
+> 목표: CloudFormation AWS CLI를 사용하여 CFN 스택을 생성할 수 있다.
+
 AWS CLI로 AWS CloudFormation 서비스를 사용해 봅시다.
 
 CFN 템플릿 `sns-lambda-template.yaml`은 SNS 토픽 하나와, 이 토픽을 구독하는 람다를 명세합니다.
