@@ -78,23 +78,16 @@ Resources:
     Properties:
       ApiId: !Ref FunnelApi
       RouteKey: "GET /funnel/{proxy+}"
-      Target: !Join ["/", ["integrations", !Ref FunnelQueryIntegration]]
+      Target: !Sub "integrations/${FunnelQueryIntegration}"
 
+  # https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-custom-integrations.html 참고하시오.
   FunnelQueryIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
       ApiId: !Ref FunnelApi
       IntegrationType: AWS_PROXY
       IntegrationMethod: POST
-      IntegrationUri: !Join
-        - ''
-        - - 'arn:'
-          - !Ref 'AWS::Partition'
-          - ':apigateway:'
-          - !Ref 'AWS::Region'
-          - ':lambda:path/2015-03-31/functions/'
-          - !GetAtt FunnelQueryingFunction.Arn
-          - /invocations
+      IntegrationUri: !Sub "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${FunnelQueryingFunction.Arn}/invocations"
       PayloadFormatVersion: 1.0
       RequestParameters:
         "overwrite:path": "$request.path.proxy"
