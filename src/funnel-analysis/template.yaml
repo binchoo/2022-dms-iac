@@ -16,7 +16,7 @@ Resources:
           AttributeType: S
         - AttributeName: funnel
           AttributeType: S
-        - AttributeName: mapping#url
+        - AttributeName: mapping#label
           AttributeType: S
       KeySchema:
         - AttributeName: uid
@@ -33,12 +33,12 @@ Resources:
             ProjectionType: KEYS_ONLY
         - IndexName: FunnelMappingIndex
           KeySchema:
-            - AttributeName: mapping#url
+            - AttributeName: mapping#label
               KeyType: HASH
           Projection:
             ProjectionType: INCLUDE
             NonKeyAttributes:
-              - mapping#label
+              - mapping#url
 
   FunnelLoggingFunction:
     Type: AWS::Serverless::Function
@@ -108,10 +108,10 @@ Resources:
 
 Outputs:
   HomeEndpoint:
-    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/home"]]
+    Value: !Sub "https://${FunnelApi}.execute-api.${AWS::Region}.amazonaws.com/home"
   InstagramCountEndpoint:
-    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/funnel/", "instagram"]]
+    Value: !Sub "https://${FunnelApi}.execute-api.${AWS::Region}.amazonaws.com/funnel/instagram"
   FacebookCountEndpoint:
-    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/funnel/", "facebook" ]]
+    Value: !Sub "https://${FunnelApi}.execute-api.${AWS::Region}.amazonaws.com/funnel/facebook"
   TwitterCountEndpoint:
-    Value: !Join ["", ["https://", !Ref FunnelApi, ".execute-api.", !Ref AWS::Region, ".amazonaws.com/funnel/", "twitter" ]]
+    Value: !Sub "https://${FunnelApi}.execute-api.${AWS::Region}.amazonaws.com/funnel/twitter"
