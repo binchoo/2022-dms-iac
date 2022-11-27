@@ -1,6 +1,6 @@
 # 2022-dms-iac
 
-2022학년도 2학기 건국대학교차세대분산시스템 
+2022학년도 2학기 건국대학교 차세대분산시스템 
 
 Infrastructura as a Code 
 
@@ -28,7 +28,7 @@ AWS CloudFormation & SAM CLI 실습 수업
 
 - [**funnel-analysis**](https://github.com/binchoo/2022-dms-iac/tree/master/src/funnel-analysis)
 
-  ![](https://img.shields.io/badge/aws%20sam--06A0CE?logo=amazonaws&color=4053D6&labelColor=FFFFFF&logoColor=4053D6) ![](https://img.shields.io/badge/dynamodb--06A0CE?logo=amazondynamodb&color=4053D6&labelColor=FFFFFF&logoColor=4053D6)![](https://img.shields.io/badge/lambda--06A0CE?logo=awslambda&color=FF9900&labelColor=FFFFFF) ![](https://img.shields.io/badge/event%20bridge--06A0CE?logo=amazonapigateway&color=FF4F8B&labelColor=FFFFFF)
+  ![](https://img.shields.io/badge/aws%20sam--06A0CE?logo=amazonaws&color=4053D6&labelColor=FFFFFF&logoColor=4053D6) ![](https://img.shields.io/badge/dynamodb--06A0CE?logo=amazondynamodb&color=4053D6&labelColor=FFFFFF&logoColor=4053D6) ![](https://img.shields.io/badge/lambda--06A0CE?logo=awslambda&color=FF9900&labelColor=FFFFFF) ![](https://img.shields.io/badge/HTTP%20API gateway--06A0CE?logo=amazonapigateway&color=FF4F8B&labelColor=FFFFFF)
   
   유입경로 분석 서버리스 파이프라인의 청사진을 작성하여 클라우드 위에 편리하게 구축해 봅시다.
 
@@ -50,58 +50,60 @@ AWS CloudFormation & SAM CLI 실습 수업
 
 ## 도움이 될 모든 자료
 
-남들이 떠먹여 주지 않는 기술 주제를 언젠가 마주하게 됩니다. 이런 상황에 대비하려면 스스로의 리서치 방식을 정립하세요.
+인터넷의 다양한 출처의 글에 의존하면, 단기간에 궁금증을 해소하거나 저자의 주관적인 인사이트를 공유 받는 장점이 있습니다. 하지만 글들의 검수의 수준과 최신화를 보장받을 수 없습니다. 
 
-알 수 없는 출처의 글에 의존하면, 단기간에 궁금증을 해소하거나 저자의 주관적인 인사이트를 공유 받는 장점이 있습니다. 그러다가 여러 번 데이다 보면, 원본 내용을 크로스 체크하는 부수적인 시간을 갖게 되실 겁니다.
+그런 정보에 여러 번 데이다 보면, 원본 정보를 크로스 체크하는 데에 부가적인 노력을 들이시게 됩니다.
+한 편, 언젠가 남들이 떠먹여 주지 않는 기술 주제를 마주하게 됩니다. 
 
-처음부터 공신력 있는 정보 소스를 일관적으로 이용하는 것을 추천합니다. 
+말씀드린 상황들에 대비하려면 스스로의 리서치 방식을 정립하세요. 공신력 있는 정보 소스를 일관적으로 이용하실 것을 추천드립니다.
 
-### AWS CLI Command Reference
+### AWS CLI 명령어 레퍼런스
 
-https://docs.aws.amazon.com/cli/latest/index.html
+[AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/index.html)
 
-### CFN Template Anatomy
+### CFN 템플릿 구조
 
-https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html
+[Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
 
-### CFN Resource and Property Reference
+### CFN 자원 및 속성 레퍼런스
 
-https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
+[CFN Resource and Property Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
 
 - [s3 bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)
 - [sns topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html)
 - [sns topic policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html)
 - [lambda function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)
 - [lambda permission](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html)
-- [serverless function](https://docs.aws.amazon.com/ko_kr/serverless-application-model/latest/developerguide/sam-resource-function.html)
 - [dynamodb table](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html)
 - [apigateway version2](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/AWS_ApiGatewayV2.html)
-- [serverless httpapi](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html)
 
-### AWS SAM Resource and Property Reference
+### AWS SAM CLI 명령어 레퍼런스
 
-https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-resources-and-properties.html
-
-### AWS SAM CLI Command Reference
-
-https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-command-reference.html
+[AWS SAM CLI Command Reference](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-command-reference.html)
 
 - [sam build](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
 - [sam package](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-package.html)
 - [sam deploy](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-deploy.html)
 
-### AWS SAM CLI Github Repository
+### AWS SAM 자원 및 속성 레퍼런스
+
+[AWS SAM Resource and Property Reference](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-resources-and-properties.html)
+
+- [serverless function](https://docs.aws.amazon.com/ko_kr/serverless-application-model/latest/developerguide/sam-resource-function.html)
+- [serverless httpapi](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html)
+
+### AWS SAM CLI 깃허브 저장소
 
 https://github.com/aws/aws-sam-cli
 
-Sam CLI를 다루는 저장소입니다.
+SAM CLI를 다루는 저장소입니다.
 
-### AWS SAM Github Repository
+### AWS SAM 깃허브 저장소
 
 https://github.com/aws/serverless-application-model
 
-Sam Transform 매크로를 다루는 저장소입니다.
+SAM Transform 매크로를 다루는 저장소입니다.
 
-### AWS SAM Java REST Application Example
+### AWS SAM Java REST 예제 저장소
 
 https://github.com/aws-samples/aws-sam-java-rest
