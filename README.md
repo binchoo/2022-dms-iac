@@ -2,7 +2,7 @@
 
 2022학년도 2학기 건국대학교 차세대분산시스템 
 
-Infrastructura as a Code 
+Infrastructure as a Code 
 
 AWS CloudFormation & SAM CLI 실습 수업
 
@@ -28,7 +28,7 @@ AWS CloudFormation & SAM CLI 실습 수업
 
 - [**funnel-analysis**](https://github.com/binchoo/2022-dms-iac/tree/master/src/funnel-analysis)
 
-  ![](https://img.shields.io/badge/aws%20sam--06A0CE?logo=amazonaws&color=4053D6&labelColor=FFFFFF&logoColor=4053D6) ![](https://img.shields.io/badge/dynamodb--06A0CE?logo=amazondynamodb&color=4053D6&labelColor=FFFFFF&logoColor=4053D6) ![](https://img.shields.io/badge/lambda--06A0CE?logo=awslambda&color=FF9900&labelColor=FFFFFF) ![](https://img.shields.io/badge/HTTP%20API gateway--06A0CE?logo=amazonapigateway&color=FF4F8B&labelColor=FFFFFF)
+  ![](https://img.shields.io/badge/aws%20sam--06A0CE?logo=amazonaws&color=4053D6&labelColor=FFFFFF&logoColor=4053D6) ![](https://img.shields.io/badge/dynamodb--06A0CE?logo=amazondynamodb&color=4053D6&labelColor=FFFFFF&logoColor=4053D6) ![](https://img.shields.io/badge/lambda--06A0CE?logo=awslambda&color=FF9900&labelColor=FFFFFF) ![](https://img.shields.io/badge/HTTP%20API%20gateway--06A0CE?logo=amazonapigateway&color=FF4F8B&labelColor=FFFFFF)
   
   유입경로 분석 서버리스 파이프라인의 청사진을 작성하여 클라우드 위에 편리하게 구축해 봅시다.
 
