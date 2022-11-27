@@ -9,7 +9,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: FunnelAnalysis
-      AttributeDefinitions: # KeySchema에서 참조할 속성들은 이곳에 꼭 나열하셔야 합니다.
+      AttributeDefinitions:
         - AttributeName: uid
           AttributeType: S
         - AttributeName: timestamp
@@ -44,22 +44,19 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
-      Handler: ??? #TODO: 수정
+      Handler: ??? # TODO: 수정하기
       Runtime: python3.7 # TODO: 여러분 파이썬 환경으로 바꾸세요 (python3.7, python3.8, python3.9)
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: ??? #TODO: 수정
+            TableName: ??? # TODO: 수정하기
       Events:
         GetHomeEvent:
-          Type: HttpApi
+          Type: ??? # TODO: 수정하기
           Properties:
-            ApiId: ??? #TODO: 수정
-            Method: ??? #TODO: 수정
-            Path: ??? #TODO: 수정
+            ApiId: ??? # TODO: 수정하기
+            Method: ??? # TODO: 수정하기
+            Path: ??? # TODO: 수정하기
 
-  # HTTP API와 람다 사이의 프록시 통합을 위한 단축 신택스가 없으므로
-  # Events 속성을 쓰지 않고
-  # 직접 Route와 Integration 자원을 만들어서 연결하겠습니다.
   FunnelQueryingFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -78,7 +75,7 @@ Resources:
     Properties:
       ApiId: !Ref FunnelApi
       RouteKey: "GET /funnel/{proxy+}"
-      Target: !Join ["/", ["integrations", !Ref FunnelQueryIntegration]]
+      Target: !Sub "integrations/${FunnelQueryIntegration}"
 
   FunnelQueryIntegration:
     Type: AWS::ApiGatewayV2::Integration
@@ -86,15 +83,7 @@ Resources:
       ApiId: !Ref FunnelApi
       IntegrationType: AWS_PROXY
       IntegrationMethod: POST
-      IntegrationUri: !Join
-        - ''
-        - - 'arn:'
-          - !Ref 'AWS::Partition'
-          - ':apigateway:'
-          - !Ref 'AWS::Region'
-          - ':lambda:path/2015-03-31/functions/'
-          - !GetAtt FunnelQueryingFunction.Arn
-          - /invocations
+      IntegrationUri: !Sub "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${FunnelQueryingFunction.Arn}/invocations"
       PayloadFormatVersion: 1.0
       RequestParameters:
         "overwrite:path": "$request.path.proxy"
